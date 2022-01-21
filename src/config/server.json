@@ -1,0 +1,5 @@
+{
+  "minutesBetweenLogFiles": 60,
+  "logRequests": true,
+  "logQueries": true
+}
