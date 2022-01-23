@@ -1,7 +1,7 @@
+import path from "path";
+
 const routes = require("express").Router();
 const operationController = require("./app/controllers/OperationsController");
-
-import path from "path";
 
 // ROUTES
 routes.get("/", (_, res) =>
