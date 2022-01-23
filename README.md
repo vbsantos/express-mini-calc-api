@@ -2,6 +2,8 @@
 
 Projeto da etapa 1.
 
+---
+
 ## Endpoints
 
 ### Documentation API at root endpoint
@@ -19,12 +21,26 @@ Projeto da etapa 1.
 
 - `/api/v1/validate`
 
+---
+
 ## Usage
+
+To install dependencies
+
+```bash
+yarn
+```
 
 To run in dev mode
 
 ```bash
 yarn dev
+```
+
+To run tests
+
+```bash
+yarn test
 ```
 
 To build
@@ -37,10 +53,4 @@ To run build
 
 ```bash
 yarn serve
-```
-
-To run tests
-
-```bash
-yarn test
 ```
