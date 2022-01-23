@@ -1,8 +1,8 @@
 const { MongoClient, ObjectId } = require("mongodb");
 
 export default class DatabaseService {
-  private connection;
-  private database;
+  private connection: any;
+  private database: any;
 
   constructor(private connectionString, private databaseName) {}
 

@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 const { writeFile, appendFile } = require("fs").promises;
 
 export default class LoggerService {
-  private logFilePath;
-  private logFileTimestamp;
-  private timeIntervalInMinutes;
+  private logFilePath: string;
+  private logFileTimestamp: number;
+  private timeIntervalInMinutes: number;
 
   constructor(filepath = __dirname + "/../logs", timeIntervalInMinutes = 60) {
     this.logFilePath = filepath;
