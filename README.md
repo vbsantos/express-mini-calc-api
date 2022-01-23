@@ -19,7 +19,6 @@ Projeto da etapa 1.
 
 - `/api/v1/validate`
 
-
 ## Usage
 
 To run in dev mode
