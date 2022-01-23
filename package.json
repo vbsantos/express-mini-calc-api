@@ -1,15 +1,14 @@
 {
   "name": "etapa-1-mini-calculadora",
   "version": "1.0.0",
-  "description": "Mini calculadora utilizando as tecnologias Node.js, Express e MongoDB",
+  "description": "Mini calculadora API, utilizando as tecnologias Node.js, Express e MongoDB",
   "main": "index.js",
   "author": "Vinicius Bohrer <vbsanttos@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/server.ts",
-    "start": "node src/server.js",
+    "dev": "nodemon src/index.ts",
     "build": "tsc --build ./",
-    "start-build": "node build/server.js",
+    "serve": "node build",
     "test": "jest --verbose --coverage"
   },
   "jest": {

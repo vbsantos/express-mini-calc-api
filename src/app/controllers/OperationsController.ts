@@ -1,3 +1,5 @@
+const path = require("path");
+
 import DatabaseService from "../services/DatabaseService";
 import ConfigService from "../services/ConfigService";
 import LoggerService from "../services/LoggerService";
@@ -9,11 +11,11 @@ const database = new DatabaseService(
 );
 
 // CONFIG FILE
-const config = new ConfigService("src/config/server.json");
+const config = new ConfigService(path.resolve("src","config","server.json"));
 
 // LOGGER
-const queryLogger = new LoggerService("logs/queries");
-const requestLogger = new LoggerService("logs/requests");
+const queryLogger = new LoggerService(path.resolve("logs","queries"));
+const requestLogger = new LoggerService(path.resolve("logs","requests"));
 
 // TODO colocar dentro da classe?
 let logRequests;

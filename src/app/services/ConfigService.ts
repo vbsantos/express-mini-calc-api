@@ -4,7 +4,7 @@ const { watch } = require("fs");
 export default class ConfigService {
   protected configFile = "";
 
-  constructor(filepath = "src/config/server.json") {
+  constructor(filepath = __dirname + "/config/server.json") {
     this.configFile = filepath;
   }
 

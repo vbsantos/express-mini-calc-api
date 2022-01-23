@@ -6,7 +6,7 @@ export default class LoggerService {
   private logFileTimestamp;
   private timeIntervalInMinutes;
 
-  constructor(filepath = "logs", timeIntervalInMinutes = 60) {
+  constructor(filepath = __dirname + "/../logs", timeIntervalInMinutes = 60) {
     this.logFilePath = filepath;
     this.timeIntervalInMinutes = timeIntervalInMinutes;
   }
