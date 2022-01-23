@@ -1,7 +1,7 @@
 {
   "name": "etapa-1-mini-calculadora",
   "version": "1.0.0",
-  "description": "Mini calculadora para avaliar conhecimento em Node.js",
+  "description": "Mini calculadora utilizando as tecnologias Node.js, Express e MongoDB",
   "main": "index.js",
   "author": "Vinicius Bohrer <vbsanttos@gmail.com>",
   "license": "MIT",
@@ -10,11 +10,26 @@
     "start": "node src/server.js",
     "build": "tsc --build ./",
     "start-build": "node build/server.js",
-    "test": "jest"
+    "test": "jest --verbose --coverage"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.ts?(x)"
+    ]
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/jest": "^27.4.0",
     "@types/node": "^17.0.10",
+    "jest": "^27.4.7",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"

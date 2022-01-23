@@ -1,3 +1,3 @@
 {   
-  "ignore": ["src/config/*.json", "README"] 
+  "ignore": ["src/config/*.json", "src/__tests__", "README"] 
 }
