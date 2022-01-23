@@ -1,3 +1,4 @@
+const path = require('path');
 const { writeFile, appendFile } = require("fs").promises;
 
 export default class LoggerService {
@@ -15,14 +16,18 @@ export default class LoggerService {
   };
 
   public log = async (data) => {
-    if (!data) return;
+    if (!data) {
+      return null;
+    }
+    let filename;
     const hasToCreateNextLogFile = await this.hasToCreateNextlogFile();
     const isFirstLogFile = !this.logFileTimestamp;
     if (hasToCreateNextLogFile || isFirstLogFile) {
       const header = Object.keys(data);
-      this.createLogFile(header);
+      filename = this.createLogFile(header);
     }
     this.writeLogFile(data);
+    return filename;
   };
 
   private hasToCreateNextlogFile = async () => {
@@ -35,7 +40,7 @@ export default class LoggerService {
 
   private getLogFileName = () => {
     const isoString = new Date(this.logFileTimestamp).toISOString();
-    return `${this.logFilePath}/${isoString}.csv`;
+    return path.resolve(this.logFilePath, `${isoString}.csv`);
   };
 
   private writeLogFile = async (data) => {
