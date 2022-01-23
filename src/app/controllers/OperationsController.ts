@@ -11,51 +11,36 @@ const database = new DatabaseService(
 );
 
 // CONFIG FILE
-const config = new ConfigService(path.resolve("src","config","server.json"));
+const config = new ConfigService(path.resolve("src", "config", "server.json"));
 
 // LOGGER
-const queryLogger = new LoggerService(path.resolve("logs","queries"));
-const requestLogger = new LoggerService(path.resolve("logs","requests"));
-
-// TODO colocar dentro da classe?
-let logRequests;
-let logQueries;
-
-const setLogConfig = async () => {
-  const {
-    logQueries: lq,
-    logRequests: lr,
-    logsTimeIntervalInMinutes: logTime,
-  } = await config.getConfigFileData();
-  logRequests = lr;
-  logQueries = lq;
-  queryLogger.setTimeIntervalInMinutes(logTime);
-  requestLogger.setTimeIntervalInMinutes(logTime);
-};
-
-setLogConfig();
-config.onConfigFileChange(setLogConfig);
+const queryLogger = new LoggerService(path.resolve("logs", "queries"));
+const requestLogger = new LoggerService(path.resolve("logs", "requests"));
 
 class OperationController {
-  public allOperations = {
-    sum: (a, b) => a + b,
-    sub: (a, b) => a - b,
-    div: (a, b) => a / b,
-    mul: (a, b) => a * b,
+  private logRequests: boolean;
+  private logQueries: boolean;
+  private allOperations = {
+    sum: (a: number, b: number): number => a + b,
+    sub: (a: number, b: number): number => a - b,
+    div: (a: number, b: number): number => a / b,
+    mul: (a: number, b: number): number => a * b,
   };
 
   constructor(private database) {
     this.database.connectToDatabase();
+    this.setLogConfig();
+    config.onConfigFileChange(this.setLogConfig);
   }
 
   operation = async (req, res) => {
     const start = +new Date();
 
-    const op = req.params.operation;
-    const a = Number(req.query.a);
-    const b = Number(req.query.b);
+    const op: string = req.params.operation;
+    const a: number = Number(req.query.a);
+    const b: number = Number(req.query.b);
 
-    const clientIp = req.ip.split(":").pop();
+    const clientIp: string = req.ip.split(":").pop();
 
     let statusCode = null;
     let data = null;
@@ -159,15 +144,27 @@ class OperationController {
   };
 
   private queryLog = (data) => {
-    if (logQueries) {
+    if (this.logQueries) {
       queryLogger.log(data);
     }
   };
 
   private requestLog = (data) => {
-    if (logRequests) {
+    if (this.logRequests) {
       requestLogger.log(data);
     }
+  };
+
+  private setLogConfig = async () => {
+    const {
+      logQueries: lq,
+      logRequests: lr,
+      logsTimeIntervalInMinutes: logTime,
+    } = await config.getConfigFileData();
+    this.logRequests = lr;
+    this.logQueries = lq;
+    queryLogger.setTimeIntervalInMinutes(logTime);
+    requestLogger.setTimeIntervalInMinutes(logTime);
   };
 }
 
