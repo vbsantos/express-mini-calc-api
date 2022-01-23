@@ -24,9 +24,9 @@ export default class LoggerService {
     const isFirstLogFile = !this.logFileTimestamp;
     if (hasToCreateNextLogFile || isFirstLogFile) {
       const header = Object.keys(data);
-      filename = this.createLogFile(header);
+      filename = await this.createLogFile(header);
     }
-    this.writeLogFile(data);
+    await this.writeLogFile(data);
     return filename;
   };
 
