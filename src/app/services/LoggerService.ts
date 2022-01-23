@@ -11,10 +11,12 @@ export default class LoggerService {
     this.timeIntervalInMinutes = timeIntervalInMinutes;
   }
 
+  // set the lifespan of each log file
   public setTimeIntervalInMinutes = (timeIntervalInMinutes) => {
     this.timeIntervalInMinutes = timeIntervalInMinutes;
   };
 
+  // log json data in csv format
   public log = async (data) => {
     if (!data) {
       return null;

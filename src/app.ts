@@ -13,6 +13,8 @@ class App {
 
   private middlewares() {
     this.express.use(express.json());
+
+    // for the documentation static files
     this.express.use(express.static(path.resolve("src","docs")));
   }
 

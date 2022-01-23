@@ -9,17 +9,20 @@ export default class ConfigService {
     this.configFile = filepath;
   }
 
+  // get config file in json format
   public getConfigFileData = async () => {
     const data = await readFile(this.configFile);
     const config = JSON.parse(data);
     return config;
   };
 
+  // get single property of the config file
   public getConfigFileProperty = async (property) => {
     const data = await this.getConfigFileData();
     return data[property];
   };
 
+  // run handler on config file change
   public onConfigFileChange = (changeHandler) => {
     this.watcher = watch(this.configFile, (eventType) => {
       if (eventType == "change") {
@@ -28,6 +31,7 @@ export default class ConfigService {
     });
   };
 
+  // stop watching config file for changes
   public stopWatch = () => {
     if (this.watcher) {
       this.watcher.close();

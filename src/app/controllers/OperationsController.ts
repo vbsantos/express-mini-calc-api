@@ -18,8 +18,13 @@ const queryLogger = new LoggerService(path.resolve("logs", "queries"));
 const requestLogger = new LoggerService(path.resolve("logs", "requests"));
 
 class OperationController {
+  // if true logs all api requests
   private logRequests: boolean;
+
+  // if true logs all database queries
   private logQueries: boolean;
+
+  // each endpoint parameter
   private allOperations = {
     sum: (a: number, b: number): number => a + b,
     sub: (a: number, b: number): number => a - b,
@@ -47,13 +52,13 @@ class OperationController {
     let operationId = null;
 
     try {
-      // validade route
+      // throw error if it is an unknown route
       const isOperationAllowed = Object.keys(this.allOperations).includes(op);
       if (!isOperationAllowed) {
         throw new Error("Unknown Operation");
       }
 
-      // validade parameters
+      // throw error if a necessary input is missing (a and/or b)
       const hasNecessaryParameters = !isNaN(a) && !isNaN(b);
       if (!hasNecessaryParameters) {
         throw new Error("Input missing");
@@ -69,10 +74,14 @@ class OperationController {
         result,
       };
 
+      // insert operation in the database
       data = await this.database.insertOperation("operations", operationData);
+
+      // log query
       this.queryLog(data);
       operationId = data.id;
 
+      // return result with status code and operation ID in the response header
       statusCode = 200;
       res.set("id", operationId).status(statusCode).send({ result });
     } catch (error) {
@@ -83,11 +92,15 @@ class OperationController {
       } else {
         statusCode = 500;
       }
+
+      // return error code
       res.status(statusCode).send();
     }
+
     const end = +new Date();
     const executionTime = end - start;
 
+    // log request
     this.requestLog({
       timestamp: new Date().toISOString(),
       executionTime,
@@ -101,10 +114,10 @@ class OperationController {
     const start = +new Date();
 
     // inputs
-    const operationId = req.query.id;
-    const clientIp = req.ip.split(":").pop();
+    const operationId: number = req.query.id;
+    const clientIp: string = req.ip.split(":").pop();
 
-    let statusCode = null;
+    let statusCode: number = null;
     let data = null;
 
     try {
@@ -114,9 +127,13 @@ class OperationController {
         throw new Error("Input missing");
       }
 
+      // get opeartion from database
       data = await this.database.getOperationById("operations", operationId);
+
+      // log query
       this.queryLog(data);
 
+      // return result with status code
       statusCode = 200;
       res.status(statusCode).send({ result: data.result });
     } catch (error) {
@@ -125,6 +142,8 @@ class OperationController {
       } else {
         statusCode = 500;
       }
+      
+      // return error code
       res.status(statusCode).send();
     }
     const end = +new Date();
@@ -155,6 +174,7 @@ class OperationController {
     }
   };
 
+  // read config file and set log variables
   private setLogConfig = async () => {
     const {
       logQueries: lq,
