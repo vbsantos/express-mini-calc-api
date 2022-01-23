@@ -130,6 +130,11 @@ class OperationController {
       // get opeartion from database
       data = await this.database.getOperationById("operations", operationId);
 
+      const resultFound = !!data.result;
+      if (!resultFound) {
+        throw new Error("Result not found");
+      }
+      
       // log query
       this.queryLog(data);
 
@@ -139,6 +144,8 @@ class OperationController {
     } catch (error) {
       if (error.message == "Input missing") {
         statusCode = 400;
+      } else if (error.message == "Result not found" || error.name == "BSONTypeError") {
+        statusCode = 404;
       } else {
         statusCode = 500;
       }

@@ -40,7 +40,7 @@ export default class DatabaseService {
       collection: collectionName,
       query: "findOne",
       id: data,
-      result: operation.result,
+      result: operation?.result,
     };
   };
 }
