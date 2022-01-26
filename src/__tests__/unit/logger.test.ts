@@ -2,7 +2,8 @@ import LoggerService from "../../app/services/LoggerService";
 const { readFile, mkdir, rm, readdir } = require("fs").promises;
 
 describe("Logger", () => {
-  jest.setTimeout(10000); // 31 seconds
+  // test time limit - 10 seconds
+  jest.setTimeout(10000);
   
   const logsDirectory = "./test-logs/"
   let loggerService;
