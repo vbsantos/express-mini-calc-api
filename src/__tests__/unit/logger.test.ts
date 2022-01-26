@@ -2,8 +2,7 @@ import LoggerService from "../../app/services/LoggerService";
 const { readFile, mkdir, rm, readdir } = require("fs").promises;
 
 describe("Logger", () => {
-  // test time limit - 10 seconds
-  jest.setTimeout(10000);
+  jest.setTimeout(10000); // test time limit - 10 seconds
   
   const logsDirectory = "./test-logs/"
   let loggerService;
@@ -32,7 +31,7 @@ describe("Logger", () => {
     expect(logData).toBe(csvLogData)
   });
 
-  test("Should create a second log file after 5 seconds", async () => {
+  test("Should create a second log file after 6 seconds", async () => {
     const filesBefore = await readdir(logsDirectory);
 
     // create a new log file each 6s
